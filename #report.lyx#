@@ -234,7 +234,9 @@ noprefix "false"
 
 \end_inset
 
-
+.
+ The yellow marked points are the new support vectors.
+ As we can see these are much smaller in number.
 \end_layout
 
 \begin_layout Standard
@@ -280,11 +282,6 @@ name "fig:Question1_fig2"
 
 \end_layout
 
-\begin_layout Standard
-The yellow marked points are the new support vectors.
- As we can see these are much smaller in number.
-\end_layout
-
 \begin_layout Subsection
 Implementing SMO algorithm (bonus part)
 \end_layout
@@ -293,8 +290,7 @@ Implementing SMO algorithm (bonus part)
 We referred to Platt's original paper, P.S.Sastri's tutorial and CS231 notes
  and implemented the SMO algorithm in python itself.
  The performance of our code was comparable to the sklearn's LIBSVM implementati
-on.
- 
+on in terms of accuracy but time taken by our code was larger.
 \end_layout
 
 \begin_layout Itemize
@@ -329,6 +325,16 @@ noprefix "false"
 \end_layout
 
 \begin_layout Standard
+We feel that ours is not the most optimal implementation of the algorithm
+ and many more techniques can be used for eg in choosing the 2 vectors at
+ each step and in other parts of the code.
+ We also feel that LIBSVM may have been implemented in C/C++ which makes
+ it much faster than some parts of our code in Python (like loops etc) which
+ cannot be vectorized using numpy arrays and hence have to suffer the slow-ness
+ of python.
+\end_layout
+
+\begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
@@ -336,19 +342,6 @@ status open
 
 \begin_layout Plain Layout
 \align center
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
 \begin_inset Graphics
 	filename images/Q1.4timecomparison.png
 	lyxscale 10
@@ -357,26 +350,6 @@ status open
 \end_inset
 
 
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
 \begin_inset Graphics
 	filename images/Q1.4accuracycomparison.png
 	lyxscale 10
@@ -385,31 +358,15 @@ status open
 \end_inset
 
 
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Plain Layout
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Time taken SMO implementation (smotime) vs Sklearn's LIBSVM (svmtime) 
+a)Time taken SMO implementation (smotime) vs Sklearn's LIBSVM (svmtime)
+ and b) accuracy of SMO implemenation (smoacc) and Sklearn's LIBSVM (svmacc)
+ 
 \begin_inset CommandInset label
 LatexCommand label
 name "fig:Question1_fig3"
@@ -426,929 +383,52 @@ name "fig:Question1_fig3"
 
 \end_inset
 
-We feel that ours is not the most optimal implementation of the algorithm
- and many more techniques can be used for eg in choosing the 2 vectors at
- each step and in other parts of the code.
- We also feel that LIBSVM may have been implemented in C/C++ which makes
- it much faster than some parts of our code in Python (like loops etc) which
- cannot be vectorized using numpy arrays and hence have to suffer the slow-ness
- of python.
+
 \end_layout
 
 \begin_layout Section
-Regression Problem - Predicting Temperature 
-\end_layout
-
-\begin_layout Standard
-We first use the closed form solution of OLS to polynomial regression problem
- and get the best degree or dimension of the data such that the metric (MSE)
- is minimum.
- Then we begin comparing the solution with that obtained using Gradient
- Descent.
- We investigate hyper-parameter tuning, stochastic gradient descent and
- interpret the results.
- Further going into higher dimensions and overfitting the data, we analyze
- various regularization techniques and closely study their effects.
- We also present our results using MAE loss function.
- Finally, we conclude this question with the non-parametric methods.
+Neural Networks
 \end_layout
 
 \begin_layout Subsection
 Ordinary Least Squares
 \end_layout
 
-\begin_layout Standard
-We first implement polynomial regression using closed form solution and
- obtain a bias-variance curve (Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:Question2_fig1"
-plural "false"
-caps "false"
-noprefix "false"
-
-\end_inset
-
-).
- It is evident that the polynomial of degree 2 or 3 are better than lower
- or higher degrees.
- Also, since there are 
-\begin_inset Formula $6$
-\end_inset
-
- features in 
-\begin_inset Formula $x$
-\end_inset
-
- (and 
-\begin_inset Formula $x$
-\end_inset
-
- is normalized), the number of features increase exponentially as the degree
- increases which also leads to numerical errors like underflow or overflow.
- These errors were observed when we train the model on higher degrees (above
- 10) where the train error starts to rise up (contrary to what we expect).
- Note that if we used unnormalized data, then going into even degree 2 would
- lead to sparsity in the features (i.e.
- many features would be zero) and overflow as well.
- This stems from the fact that there are binary features and features in
- the order of 
-\begin_inset Formula $1000$
-\end_inset
-
- in 
-\begin_inset Formula $x$
-\end_inset
-
-.
- In the closed form solution, Moore Penrose inverse of matrices is used
- because the degree of polynomial increases, the higher order terms may
- reduce to zero, leading to singular data covariance matrix.
- 
+\begin_layout Section
+Learning++
 \end_layout
 
 \begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename C:/Users/shubhammittal/Desktop/assignment/Q2_Regression/PolynomialRegression.png
-	width 5cm
-	height 5cm
-	keepAspectRatio
-
-\end_inset
-
-
-\begin_inset Graphics
-	filename C:/Users/shubhammittal/Desktop/assignment/Q2_Regression/PolynomialRegression2.png
-	width 5cm
-	height 5cm
-	keepAspectRatio
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Polynomial Regression 
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:Question2_fig1"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-Next, we compare the closed form solution with that obtained using gradient
- descent algorithms.
- For this, we use degree 
-\begin_inset Formula $1$
-\end_inset
-
- polynomial to have relatively less number of features so that they can
- be analyzed properly.
- But the results will definitely follow for 
-\begin_inset Formula $x$
-\end_inset
-
- with any number of features.
-\end_layout
-
-\begin_layout Subsubsection
-Gradient Descent (GD)
-\end_layout
-
-\begin_layout Standard
-Following observations and interpretations were made while implementing
- gradient descent algorithm :
-\end_layout
-
-\begin_layout Enumerate
-The problem of vanishing and exploding gradients, i.e.
- gradients become zero or infinite : this problem was observed when the
- dataset is not normalized and/or the learning rate is too high.
-\end_layout
-
-\begin_layout Enumerate
-Convergence issue : tuning the learning rate is important as if it is too
- low then the algorithm takes too many epochs to converge.
- Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:Question2_fig2"
-plural "false"
-caps "false"
-noprefix "false"
-
-\end_inset
-
- (left) shows the effect of learning rate on the convergence.
-\end_layout
-
-\begin_layout Enumerate
-Convergence to closed form solution : It was observed that the algorithm
- converges to the closed form solution, provided the hyper-parameters (learning
- rate and number of epochs) are tuned properly.
- Also, because the gradient descent algorithm is asymptotic in the sense
- that it converges to the optimum when the number of iterations goes to
- infinite, a small difference was observed between the grad.
- desc.
- and closed form solution (shown in Table 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "tab:Question2_Table1"
-plural "false"
-caps "false"
-noprefix "false"
-
-\end_inset
-
-).
-\end_layout
-
-\begin_layout Enumerate
-Time varying learning rate : It was also observed that reducing the learning
- rate after some number of epochs doesn't reduce the loss, as it should
- if we were stuck in a local minimum.
- This is because the mse loss is a convex function with the hypothesis 
-\begin_inset Formula $w^{T}x$
-\end_inset
-
-, thus there is only one optima.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename C:/Users/shubhammittal/Desktop/assignment/Q2_Regression/grad_descent.png
-	width 4cm
-	height 4cm
-	keepAspectRatio
-
-\end_inset
-
-
-\begin_inset Graphics
-	filename C:/Users/shubhammittal/Desktop/assignment/Q2_Regression/stoch_grad_descent.png
-	width 4cm
-	height 4cm
-	keepAspectRatio
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Optimization algorithms applied on Least Squares 
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:Question2_fig2"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Subsubsection
-Stochastic Gradient Descent (SGD)
-\end_layout
-
-\begin_layout Standard
-Following observations and interpretations were made while implementing
- stochastic gradient descent algorithm :
-\end_layout
-
-\begin_layout Enumerate
-The problem of vanishing and exploding gradient is more enhanced in SGD
- since we have a noisy gradient computed from a mini-batch of the train
- data.
- Also this noisy gradient leads to fluctuations in the train error plot
- as shown Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:Question2_fig2"
-plural "false"
-caps "false"
-noprefix "false"
-
-\end_inset
-
-(right).
-\end_layout
-
-\begin_layout Enumerate
-Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:Question2_fig2"
-plural "false"
-caps "false"
-noprefix "false"
-
-\end_inset
-
-(right) is obtained using batch size of 200 (train data size is 700) and
- 50 epochs whereas Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:Question2_fig2"
-plural "false"
-caps "false"
-noprefix "false"
-
-\end_inset
-
-(left) has 150 epochs.
- Note the difference of the x-axis in both the plots - in SGD the plot is
- against number of passes through mini-batch of the data, also called as
- iterations.
- Hence, we infer that SGD requires lesser number of epochs or passes though
- complete data and converges faster.
- Table 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "tab:Question2_Table1"
-plural "false"
-caps "false"
-noprefix "false"
-
-\end_inset
-
- shows that weights learnt using SGD differ more than that using GD from
- the closed form solution.
- 
-\end_layout
-
-\begin_layout Enumerate
-As the batch size is reduced, it was observed that the training time increases
- and we get more noisier train error plot.
- Thus concluding that the batch size has to be tuned properly such that
- it is nether too low (giving high noise) nor too high (going towards GD).
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float table
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Tabular
-<lyxtabular version="3" rows="11" columns="4">
-<features tabularvalignment="middle">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $\mathbf{w}$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\series bold
-Closed Form
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\series bold
-Gradient Descent
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\series bold
-Stochastic G.D.
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Bias Term
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-[ 1.47457e+01] 
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-[ 1.47457e+01]
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-[1.47638e+01]
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $w_{1}$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-[-4.84591e-03] 
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-[-4.84611e-03] 
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-[ 8.38333e-03] 
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $w_{2}$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-[ 7.69836e+00] 
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-[ 7.69835e+00] 
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-[ 7.64714e+00] 
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $w_{3}$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-[-4.78595e-02] 
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-[-4.78597e-02] 
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-[-3.97308e-02] 
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $w_{4}$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-[-8.30544e-02] 
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-[-8.30552e-02] 
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-[-1.10427e-01] 
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $w_{5}$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-[ 8.45435e-01] 
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-[ 8.45444e-01] 
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-[ 8.43169e-01] 
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $w_{6}$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-[ 6.71323e-02]
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-[ 6.71313e-02] 
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-[ 8.12530e-02] 
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-TrainError
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-2.665
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-2.665
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-2.817
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-ValError
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-2.826
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-2.826
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-2.835
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-TestError
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-3.508
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-3.508
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-3.510
-\end_layout
-
-\end_inset
-</cell>
-</row>
-</lyxtabular>
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Ordinary Least Squares
-\begin_inset CommandInset label
-LatexCommand label
-name "tab:Question2_Table1"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
+Part A to E correspond to the 5 subquestions of Q3 
 \end_layout
 
 \begin_layout Subsection
-Regularized Least Squares
+Class Imbalance in MNIST
 \end_layout
 
 \begin_layout Standard
-In this section, the effects of L1, L2 and elastic net regularization on
- linear regression model (with MSE) are shown.
- For this the original 6 features are used (not going in higher dim.
- space because of too many features).
-\end_layout
-
-\begin_layout Subsubsection
-L1, L2 and Elastic Net Regularization
+MNIST class 0, 1, 2 were considered in the ratio 70:25:5.
+ We first used a comparitively larger self made (non standard) neural network
+ which gave close to 100%(>99.8 on both train and test datasets) accuracy.
+ This neural network was large for the MNIST dataset and was able to generalize
+ well despite the class imbalance.
 \end_layout
 
 \begin_layout Standard
-For L2 regularization, since the regularized cost function is convex the
- closed form and gradient descent solution are same.
- Here, the experiments are done using gradient descent since there exists
- no closed form solution to L1, and hence, elastic net regularization to
- the best of our knowledge.
- SGD is not used here as for the given small dataset, no significant advantage
- was seen over GD as shown in Table 
+We then used a smaller feedforward neural network with 2 hidden layers to
+ first visualize the problems that arose due to class imbalance and then
+ try to solve them.
+ We first tried out the following methods and modifications to our losses.
+\end_layout
+
+\begin_layout Itemize
+Cross entropy loss: We did not modify the loss in this case and the results
+ we obtained are shown in the folloing table having precision recall and
+ F1 score for all three classes.
+ (Table 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "tab:Question2_Table1"
-plural "false"
-caps "false"
-noprefix "false"
-
-\end_inset
-
-.
- The results are shown in Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:Question2_fig3"
-plural "false"
-caps "false"
-noprefix "false"
-
-\end_inset
-
-.
- Following interpretations are made:
-\end_layout
-
-\begin_layout Enumerate
-The train and test error increases as regularization increases since the
- cost function is being penalized more.
- Since both L1 and L2 norms are centered around 0, weights reduce to zero
- as 
-\begin_inset Formula $\alpha$
-\end_inset
-
- (regularization constant) increases.
-\end_layout
-
-\begin_layout Enumerate
-The L1 regularization plot shows that it behaving like a feature selector
- - it pins some weights to zero which means that those features will be
- ignored in 
-\begin_inset Formula $w^{T}x$
-\end_inset
-
-.
- This is not the case in L2, or rather, it is less pronounced in L2 since
- most of the weights are near to zero but not exactly zero.
- Thus L1 helps in selecting the required features.
-\end_layout
-
-\begin_layout Enumerate
-L2 regularization reduces the weights towards zero but it keeps most of
- the features.
- As we will see in regularizing the overfitting polynomial regressor, the
- model has huge values of weights in higher order and applying L2 actually
- reduces those to zero.
- Thus L2 helps in getting towards best fit.
-\end_layout
-
-\begin_layout Enumerate
-Elastic Net regularization, hence, combining both L1 and L2 helps in getting
- sparser solution as well as best fit.
- The results are shown in Appendix( Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:Elastic-Net-Regularization"
+reference "tab3.1"
 plural "false"
 caps "false"
 noprefix "false"
@@ -1358,331 +438,6 @@ noprefix "false"
 )
 \end_layout
 
-\begin_layout Enumerate
-In L1, some noise during the gradient descent algorithm was also observed.
- We interpret that to be coming because of the non-differentiable convex
- function.
-\end_layout
-
-\begin_layout Standard
-It is also mathematically proven in theory that L1 leads to zero weights
- exactly if a condition (given in Ian goodfellow book) is satisfied.
- The theory is verified and for that PCA whitening transform is used to
- make the features statistically independent.
- The empirical results do verify the theoretical results.
- 
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename C:/Users/shubhammittal/Desktop/assignment/Q2_Regression/L1_L2_Regularisation.png
-	width 10cm
-	height 10cm
-	keepAspectRatio
-
-\end_inset
-
-
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Comparison between L1 and L2 Regularization
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:Question2_fig3"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Subsubsection
-Solving the problem of Overfitting
-\end_layout
-
-\begin_layout Standard
-In Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:Question2_fig1"
-plural "false"
-caps "false"
-noprefix "false"
-
-\end_inset
-
-, the 5th degree polynomial overfits the data.
- Hence, the model is L2 regularized and brought to best fit as shown in
- Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:Regularising-the-5th"
-plural "false"
-caps "false"
-noprefix "false"
-
-\end_inset
-
-.
- It was also observed that the coefficients of higher order terms are reducing
- to zero (which were initially large) as regularization increased.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename C:/Users/shubhammittal/Desktop/assignment/Q2_Regression/Solving_Overfitting_L2.png
-	width 4cm
-	height 4cm
-	keepAspectRatio
-
-\end_inset
-
-
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Regularizing the 5th degree polynomial regression model
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:Regularising-the-5th"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Subsection
-MAE Loss function
-\end_layout
-
-\begin_layout Standard
-Training the linear regression model using MAE loss function didn't show
- notable difference from MSE results.
- Quantifying the goodness of the regression model is difficult and the compariso
-n results are shown in Appendix (Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:Linear-regression-comparison"
-plural "false"
-caps "false"
-noprefix "false"
-
-\end_inset
-
-) and left for the readers to decide which is good.
- However, following interpretation is made regarding the effect of using
- different loss function - MSE loss models noise as gaussian distributed
- whereas MAE loss models the same as laplace distributed.
-\end_layout
-
-\begin_layout Subsection
-Non Parametric Methods
-\end_layout
-
-\begin_layout Standard
-Approximating a function i.e.
- making a regressor using knn or parzen windows can be done if we take the
- average of the output of the training samples near to the test point (k-nn
- or inside window).
- Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:Non-Parametric-Methods"
-plural "false"
-caps "false"
-noprefix "false"
-
-\end_inset
-
- (left) show the bias variance decomposition as the model complexity (measured
- in terms of number of neighbor (knn) and window size (parzen)).
- Using it, the best-fit model is shown in Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:Non-Parametric-Methods"
-plural "false"
-caps "false"
-noprefix "false"
-
-\end_inset
-
- (right).
- Comparing it with 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:Question2_fig1"
-plural "false"
-caps "false"
-noprefix "false"
-
-\end_inset
-
-(right), it is visible that the regression model has learnt better from
- the training data.
- Also, the non parametric method requires the whole training data to predict
- output at any point (unlike regression methods), thus these methods are
- slower and can be considered as base-line algorithms/methods for any ML
- algorithm.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename C:/Users/shubhammittal/Desktop/assignment/Q2_Regression/BiasVariance_KNNParzen.png
-	width 4cm
-	height 4cm
-	keepAspectRatio
-
-\end_inset
-
-
-\begin_inset Graphics
-	filename C:/Users/shubhammittal/Desktop/assignment/Q2_Regression/q2_NonParam.png
-	width 4cm
-	height 4cm
-	keepAspectRatio
-
-\end_inset
-
-
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Non Parametric Methods
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:Non-Parametric-Methods"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-One drawback of using parzen windows over KNN is that if no training point
- falls in the window, then there is no estimate at that test point.
- In the experiment, in such cases the parzen window - based model outputs
- 
-\begin_inset Formula $-1$
-\end_inset
-
- (i.e.
- negative temperature) to clearly tell the users that model has failed.
-\end_layout
-
-\begin_layout Section
-Binary Classification on Health Data
-\end_layout
-
-\begin_layout Standard
-The dataset is visualized in 3D and shown in Appendix (Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:Health-Data"
-plural "false"
-caps "false"
-noprefix "false"
-
-\end_inset
-
-).
- The results like precision, recall, F1 shown in the following subsections
- are for class-1 and over the complete test dataset.
-\end_layout
-
-\begin_layout Subsection
-Maximum Likelihood Estimation
-\end_layout
-
-\begin_layout Standard
-In this subsection, the estimation of (assumed) class conditional densities
- is made and the results are reported.
- The visualization of the dataset helped in choosing the number of Gaussian
- components in GMM to be equal to 2.
- From Table 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "tab:Classifiers-using-Estimation"
-plural "false"
-caps "false"
-noprefix "false"
-
-\end_inset
-
-, we infer that the data is coming from one multivariate Gaussian (for each
- class conditional density).
- Also, increasing the number of components (i.e.
- model complexity) in GMM, the Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:ROC-Curves"
-plural "false"
-caps "false"
-noprefix "false"
-
-\end_inset
-
- (right) verifies this inference.
-\end_layout
-
 \begin_layout Standard
 \begin_inset Float table
 wide false
@@ -1692,438 +447,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Tabular
-<lyxtabular version="3" rows="7" columns="4">
-<features tabularvalignment="middle">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\series bold
-Bayes-Gaussian
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\series bold
-Naive Bayes
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\series bold
-Bayes-GMM
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Validation Acc
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-84.69
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-85.51
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-84.69
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Train Acc
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-85.10
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-85.30
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-85.30
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Test Acc
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-87.14
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-86.66
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-86.19
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Precision
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-89.61
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-90.54
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-95.
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Recall
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-78.40
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-76.13
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-68.67
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-F1
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-83.63
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-82.71
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-79.72
-\end_layout
-
-\end_inset
-</cell>
-</row>
-</lyxtabular>
-
-\end_inset
-
-
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Classifiers using Estimation Theory
-\begin_inset CommandInset label
-LatexCommand label
-name "tab:Classifiers-using-Estimation"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-However, interestingly, the ROC curves for the three classifiers (Figure
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:ROC-Curves"
-plural "false"
-caps "false"
-noprefix "false"
-
-\end_inset
-
- (left)) shows that Naive Bayes is the best among three.
- Thus, we conclude that the data is most likely coming from gaussian class
- conditional densities such that the features are statistically independent.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status collapsed
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename C:/Users/shubhammittal/Desktop/assignment/Q1_Binary_Classifier/Q1_ROCs.png
-	width 5cm
-	height 5cm
-	keepAspectRatio
-
-\end_inset
-
-
-\begin_inset Graphics
-	filename C:/Users/shubhammittal/Desktop/assignment/Q1_Binary_Classifier/BiasVariance_GMM.png
-	width 5cm
-	height 5cm
-	keepAspectRatio
-
-\end_inset
-
-
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-ROC Curves and Bias-Variance Decomposition 
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:ROC-Curves"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-Implementing the MAP estimates showed that the prior or belief, which is
- imposed on the parameters, is reducing the performance of the classifier.
- Since the dataset is having sufficient and good variety of sample, we interpret
- that the imposing prior is not helping or benefiting in getting the estimates.
-\end_layout
-
-\begin_layout Subsection
-Logistic Regression
-\end_layout
-
-\begin_layout Standard
-In this section, a logistic regressor 
-\begin_inset Formula $\sigma(w^{T}x)$
-\end_inset
-
- is used with different loss functions.
- After choosing the best lost function (one that gives best test accuracy),
- we train a logit of polynomial regression 
-\begin_inset Formula $\sigma(w^{T}\phi(x))$
-\end_inset
-
- i.e.
- going into higher dimensional space where, hopefully, the data becomes
- more separable and/or the model overfits.
- As we shall see that overfitting occurs, so we regularize the model to
- bring it back to best fit.
- 
-\end_layout
-
-\begin_layout Standard
-Table 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "tab:Logistic-Regression-Classifiers"
-plural "false"
-caps "false"
-noprefix "false"
-
-\end_inset
-
- summarizes the results obtained after training 
-\begin_inset Formula $\sigma(w^{T}x)$
-\end_inset
-
- with different loss functions.
- Here gradient descent algorithm is used.
- Based on the performance on the test set (last 4 rows), we conclude that
- MSE loss function trains the model to the best among the three.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float table
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Tabular
-<lyxtabular version="3" rows="8" columns="4">
+<lyxtabular version="3" rows="5" columns="4">
 <features tabularvalignment="middle">
 <column alignment="center" valignment="top" width="0pt">
 <column alignment="center" valignment="top" width="0pt">
@@ -2135,1705 +459,13 @@ status open
 
 \begin_layout Plain Layout
 
+\series bold
+Class
 \end_layout
 
 \end_inset
 </cell>
 <cell alignment="center" valignment="top" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\series bold
-MAE
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\series bold
-MSE
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\series bold
-CrossEntropy
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Val Acc
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.8408
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.8469
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.8388
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Val F1
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.8066
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.8133
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.8007
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Train Acc
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.8531
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.8429
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.8449
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Test Acc
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.8667
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.8905
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.8857
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Precision
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.8736
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.8646
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.8557
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Recall
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.8172
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.8925
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.8925
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-F1
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.8444
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.8783
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.8737
-\end_layout
-
-\end_inset
-</cell>
-</row>
-</lyxtabular>
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Logistic Regression Classifiers with different loss functions 
-\begin_inset CommandInset label
-LatexCommand label
-name "tab:Logistic-Regression-Classifiers"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-The corresponding ROC curves for the three classifiers (difference being
- the loss function used for training) are shown in Figure
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:ROC-Curves"
-plural "false"
-caps "false"
-noprefix "false"
-
-\end_inset
-
- (left).
- Hence, the ROC curves verifies that MSE is indeed the best in the given
- situation and they also show that regression models outperform the MLE/MAP
- based classifiers.
- 
-\end_layout
-
-\begin_layout Standard
-Also, for completeness, stochastic gradient descent is used and we obtain
- similar results, shown in Appendix (Table 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "tab:Logistic-Regression-Classifiers-1"
-plural "false"
-caps "false"
-noprefix "false"
-
-\end_inset
-
-).
- SGD solution shows some level of deviation from the gradient descent solution,
- but given a small dataset, there was no notable difference in the training
- time.
- However, there was a notable difference in the training time of SGD in
- question 3.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align left
-\begin_inset Graphics
-	filename C:/Users/shubhammittal/Desktop/assignment/Q1_Binary_Classifier/biasVariance_logistic.png
-	width 8cm
-	height 8cm
-	keepAspectRatio
-
-\end_inset
-
-
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-BiasVariance Decomposition
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:BiasVariance-Decomposition"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-Next, we try to increase the performance of the model by going into higher
- dimensions.
- For that 
-\begin_inset Formula $\sigma(w^{T}\phi(x))$
-\end_inset
-
- is trained where 
-\begin_inset Formula $\phi$
-\end_inset
-
- is polynomial kernel.
- The results are shown in Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:BiasVariance-Decomposition"
-plural "false"
-caps "false"
-noprefix "false"
-
-\end_inset
-
-.
- Note that the training error/acc degrades after degree 
-\begin_inset Formula $3$
-\end_inset
-
- because of the numerical errors (finite storage capability of digital machines).
- Thus, it is evident that the model is overfitting and hence, the overfitted
- 
-\begin_inset Formula $3^{rd}$
-\end_inset
-
- degree polynomial regression model is now regularized.
- Here the L2 regularization results are shown in Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:Regularization-of-Overfitted"
-plural "false"
-caps "false"
-noprefix "false"
-
-\end_inset
-
- but similar results follow in L1 or elastic net.
- 
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align left
-\begin_inset Graphics
-	filename C:/Users/shubhammittal/Desktop/assignment/Q1_Binary_Classifier/regularising_overfitted_model.png
-	width 8cm
-	height 8cm
-	keepAspectRatio
-
-\end_inset
-
-
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Regularization of Overfitted Logistic 
-\series bold
-
-\begin_inset Formula $3^{rd}$
-\end_inset
-
-
-\series default
- degree polynomial regressor
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:Regularization-of-Overfitted"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-It is natural to question that why do we need to first overfit i.e.
- create a problem and then regularize i.e.
- solve the same? Answer is that since the dataset given is simple (not many
- features and data size is small), we start with less complex models and
- then subsequently increase the complexity to improve the performance.
- Increasing the model richness may lead to improved performance (Figure
- 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:Question2_fig1"
-plural "false"
-caps "false"
-noprefix "false"
-
-\end_inset
-
-) up to certain extent but, here, it directly lead to overfitting problem.
- Regularization is one solution to this problem.
- However, if we are given complex datasets which has too many features and
- size is huge (like in Question 3), we start with a rich complex model (that
- most likely will overfit) and regularize it to reach the best fit.
- This is discussed in more detail in the section of Question 3.
-\end_layout
-
-\begin_layout Subsection
-Non Parametric Methods
-\end_layout
-
-\begin_layout Standard
-Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:BiasVariance-Decomposition"
-plural "false"
-caps "false"
-noprefix "false"
-
-\end_inset
-
- (left) show the bias variance decomposition by changing the model complexity
- (measured in terms of number of neighbor (knn) and window size (parzen)).
- In finding the k-nearest neighbors, for distance metric Infinite (represented
- as 0) norm, 1-norm and 2-norm are compared as shown in Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:BiasVariance-Decomposition"
-plural "false"
-caps "false"
-noprefix "false"
-
-\end_inset
-
-(right).
- However, we state that selecting the correct norm is based on the order
- of data points in the data set and the validation accuracies from the three
- norms differ in order of 
-\begin_inset Formula $0.001$
-\end_inset
-
-.
- Thus, the three norms give nearly same performance.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align left
-\begin_inset Graphics
-	filename C:/Users/shubhammittal/Desktop/assignment/Q1_Binary_Classifier/BiasVariance_KNNParzen.png
-	width 4cm
-	height 4cm
-	keepAspectRatio
-
-\end_inset
-
-
-\begin_inset Graphics
-	filename C:/Users/shubhammittal/Desktop/assignment/Q1_Binary_Classifier/finding norm.png
-	width 4cm
-	height 4cm
-	keepAspectRatio
-
-\end_inset
-
-
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Bias Variance Decomposition
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:Bias-Variance-Decomposition"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-The performance of the knn and parzen window classifier is given in Table
- for threshold of 1 as per the ROC curves given in Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:ROC-Curves"
-plural "false"
-caps "false"
-noprefix "false"
-
-\end_inset
-
-.
- Note that there is no training performance result since these are non parametri
-c classifiers.
- Here also, the parzen window classifier performs poorly when the window
- size is too small.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float table
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Tabular
-<lyxtabular version="3" rows="3" columns="6">
-<features tabularvalignment="middle">
-<column alignment="center" valignment="top" width="0pt">
-<column alignment="center" valignment="top" width="0pt">
-<column alignment="center" valignment="top" width="0pt">
-<column alignment="center" valignment="top" width="0pt">
-<column alignment="center" valignment="top" width="0pt">
-<column alignment="center" valignment="top" width="0pt">
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Val Acc
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Test Acc
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Precision
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Recall
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-F1
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-KNN
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.8510
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.8673
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.8585
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.8301
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.8441
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Parzen
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.8530
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.8755
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.9171
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.7830
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.8447
-\end_layout
-
-\end_inset
-</cell>
-</row>
-</lyxtabular>
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Knn and Parzen Window Classifiers
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-The AUC scores (shown in Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:ROC-Curves"
-plural "false"
-caps "false"
-noprefix "false"
-
-\end_inset
-
-) conclude that the logistic regression (trained with MSE loss) is the best
- among the classifiers we have seen in the course.
- 
-\end_layout
-
-\begin_layout Section
-Multi-Class Classification
-\end_layout
-
-\begin_layout Standard
-The given images of 
-\begin_inset Formula $64\times64$
-\end_inset
-
- present the problem of curse of dimensionality.
- Since these are gray scale images (having lot of 0s), even normalizing
- them doesn't produce non-singular data covariance matrix (for MLE, MAP).
- Hence, we resort to dimensionality reduction techniques like PCA, t-SNE.
- It was observed that t-SNE is pretty slow (and thus gave better separable
- data in reduced dimensions), so we used PCA and took the components with
- most of the data variance.
- Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:Medical-MNIST-Dataset"
-plural "false"
-caps "false"
-noprefix "false"
-
-\end_inset
-
- (left) shows that almost 
-\begin_inset Formula $58\%$
-\end_inset
-
- data variance is in first two components and remaining 
-\begin_inset Formula $42\%$
-\end_inset
-
- in 
-\begin_inset Formula $4094$
-\end_inset
-
- components (original image dimension being 
-\begin_inset Formula $4096$
-\end_inset
-
-).
- Thus, taking 
-\begin_inset Formula $2$
-\end_inset
-
- components, the visualized (and well separated) training data is shown
- in Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:Medical-MNIST-Dataset"
-plural "false"
-caps "false"
-noprefix "false"
-
-\end_inset
-
- (right).
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align left
-\begin_inset Graphics
-	filename C:/Users/shubhammittal/Desktop/assignment/Q3_Multi_Class/PCA.png
-	width 4cm
-	height 4cm
-	keepAspectRatio
-
-\end_inset
-
-
-\begin_inset Graphics
-	filename C:/Users/shubhammittal/Desktop/assignment/Q3_Multi_Class/TrainingDataset.png
-	width 4cm
-	height 4cm
-	keepAspectRatio
-
-\end_inset
-
-
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Medical MNIST Dataset
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:Medical-MNIST-Dataset"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Subsection
-Maximum Likelihood Estimation
-\end_layout
-
-\begin_layout Standard
-The results of implementing a bayes classifier with each class conditional
- density estimated using MLE are shown in Table 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "tab:Performance-of-classifiers"
-plural "false"
-caps "false"
-noprefix "false"
-
-\end_inset
-
-.
- The per-class performance metrics and confusion matrix for each classifier
- is given in Appendix.
- The results are analyzed and compared in the next subsection.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float table
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Tabular
-<lyxtabular version="3" rows="6" columns="4">
-<features tabularvalignment="middle">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\series bold
-Bayes Gaussian
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\series bold
-Naive Bayes Gaussian
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\series bold
-BayesGMM
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Val.
- Acc
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.9709
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.9642
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.970
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Val.
- MacroF1
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.9706
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.9640
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.9726
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Train Acc
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.9711
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.9643
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.9722
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Test Acc
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.9694
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.9638
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.9604
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Test MacroF1
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.9692
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.9636
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.9513
-\end_layout
-
-\end_inset
-</cell>
-</row>
-</lyxtabular>
-
-\end_inset
-
-
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Performance of classifiers
-\begin_inset CommandInset label
-LatexCommand label
-name "tab:Performance-of-classifiers"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-Similar to Question 1, here also the MAP estimates worsen the classifier.
- Also, results shown in Table 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "tab:Performance-of-classifiers"
-plural "false"
-caps "false"
-noprefix "false"
-
-\end_inset
-
- are obtained on small part of dataset (due to enormous time required in
- estimation).
- Moreover, increasing the number of components from 2, decreases the accuracy.
- Thus, similar results (co-incidently) follow here i.e.
- the data is coming from multivariate gaussian (for each class conditional
- density)
-\end_layout
-
-\begin_layout Subsection
-Logistic Regression
-\end_layout
-
-\begin_layout Standard
-Now, a 1-layer neural network is implemented i.e.
- we assume that 
-\begin_inset Formula $\sigma(w_{j}^{T}x)$
-\end_inset
-
- approximates 
-\begin_inset Formula $P(Y=j/X)$
-\end_inset
-
- .
- The model is trained with different loss functions and the results are
- compared.
- After selecting the loss function, attempt is made to improve the performance
- of the model by going into higher dim.
- space i.e.
- training 
-\begin_inset Formula $\sigma(w_{j}^{T}\phi(x))$
-\end_inset
-
- where 
-\begin_inset Formula $\phi$
-\end_inset
-
- is polynomial kernel.
- 
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float table
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Tabular
-<lyxtabular version="3" rows="6" columns="4">
-<features tabularvalignment="middle">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\series bold
-MAE
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\series bold
-MSE
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\series bold
-Cross Entropy
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Val.
- Acc
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.6431
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.6875
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.8878
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Val.
- MacroF1
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.5271
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.6113
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.8860
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Train Acc
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.6433
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.7482
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.9238
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Test Acc
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.6425
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.7465
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.9182
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Test MacroF1
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.5256
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.6947
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.9180
-\end_layout
-
-\end_inset
-</cell>
-</row>
-</lyxtabular>
-
-\end_inset
-
-
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Logistic regression with different loss functions (full batch gradient descent)
-\begin_inset CommandInset label
-LatexCommand label
-name "tab:Logistic-regression-with"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-From Table 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "tab:Logistic-regression-with"
-plural "false"
-caps "false"
-noprefix "false"
-
-\end_inset
-
-, it is evident that cross entropy loss is the best metric to train the
- logistic regression model.
- The per-class performance metrics and the confusion matrix for the Cross
- Entropy model is given in Table 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "tab:Logistic-Regression-over"
-plural "false"
-caps "false"
-noprefix "false"
-
-\end_inset
-
- and remaining are given in the Appendix.
- Comparing the results of MLE and logistic regression, we see that accuracy
- from logistic regression = 
-\begin_inset Formula $91.8\%$
-\end_inset
-
- , from naive bayes = 
-\begin_inset Formula $96.3\%$
-\end_inset
-
- , from bayes = 
-\begin_inset Formula $96.9\%$
-\end_inset
-
-, whereas the number of parameters are 
-\begin_inset Formula $18,24,36$
-\end_inset
-
-.
- Thus it gives an interpretation that why MLE is giving better results since
- it has more rich model.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float table
-wide false
-sideways false
-status collapsed
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Tabular
-<lyxtabular version="3" rows="7" columns="4">
-<features tabularvalignment="middle">
-<column alignment="left" valignment="top" width="0pt">
-<column alignment="left" valignment="top" width="0pt">
-<column alignment="left" valignment="top" width="0pt">
-<column alignment="left" valignment="top" width="0pt">
-<row>
-<cell alignment="left" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -3844,7 +476,7 @@ Precision
 
 \end_inset
 </cell>
-<cell alignment="left" valignment="top" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -3855,7 +487,7 @@ Recall
 
 \end_inset
 </cell>
-<cell alignment="left" valignment="top" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -3868,7 +500,7 @@ F1
 </cell>
 </row>
 <row>
-<cell alignment="left" valignment="top" topline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -3877,930 +509,29 @@ F1
 
 \end_inset
 </cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.989
+0.955
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.79
+0.998
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.878
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="left" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-1
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.923
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.999
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.96
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="left" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-2
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.818
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-1.0
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.9
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="left" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-3
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.948
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.984
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.965
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="left" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-4
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.922
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.886
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.904
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="left" valignment="top" topline="true" bottomline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-5
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.948
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.86
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.901
-\end_layout
-
-\end_inset
-</cell>
-</row>
-</lyxtabular>
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Tabular
-<lyxtabular version="3" rows="7" columns="7">
-<features tabularvalignment="middle">
-<column alignment="left" valignment="top" width="0pt">
-<column alignment="left" valignment="top" width="0pt">
-<column alignment="left" valignment="top" width="0pt">
-<column alignment="left" valignment="top" width="0pt">
-<column alignment="left" valignment="top" width="0pt">
-<column alignment="left" valignment="top" width="0pt">
-<column alignment="left" valignment="top" width="0pt">
-<row>
-<cell alignment="left" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\series bold
-0
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\series bold
-1
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\series bold
-2
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\series bold
-3
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\series bold
-4
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\series bold
-5
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="left" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\series bold
-0
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.79
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.0
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.21
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.0
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.0
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.0
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="left" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\series bold
-1
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.0
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.999
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.0
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.0
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.0
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.001
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="left" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\series bold
-2
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.0
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.0
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-1.0
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.0
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.0
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.0
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="left" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\series bold
-3
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.0
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.0
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.007
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.984
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.006
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.003
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="left" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\series bold
-4
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.009
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.002
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.005
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.054
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.886
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.044
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="left" valignment="top" topline="true" bottomline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\series bold
-5
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.0
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.072
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.0
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.0
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.068
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.86
-\end_layout
-
-\end_inset
-</cell>
-</row>
-</lyxtabular>
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Logistic Regression over Cross Entropy Loss
-\begin_inset CommandInset label
-LatexCommand label
-name "tab:Logistic-Regression-over"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-From the confusion matrices of the three models, we infer that recall of
- class AbdomentCt (class 0) and HeadCt (class 5) has increased moving from
- MAE to Cross Entropy.
- Also, observing the learning curve (gradient descent path) for the three
- models in Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:Metrics-of-goodness"
-plural "false"
-caps "false"
-noprefix "false"
-
-\end_inset
-
-, it is interesting to note the spikes in the accuracy plot even when the
- loss plots are smooth.
- It questions whether or not we should stop at those spikes, for instance
- in MAE case (orange plot).
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status collapsed
-
-\begin_layout Plain Layout
-\align left
-\begin_inset Graphics
-	filename C:/Users/shubhammittal/Desktop/assignment/Q3_Multi_Class/logistic_lossVSaccuracy.png
-	width 10cm
-	height 10cm
-	keepAspectRatio
-
-\end_inset
-
-
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Metrics of goodness - Loss and Accuracy
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:Metrics-of-goodness"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-Before answering the question, Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:Bias-Variance-Decomposition-1"
-plural "false"
-caps "false"
-noprefix "false"
-
-\end_inset
-
- shows the bias variance decomposition for this question obtrained using
- a polynomial kernel, with cross entropy loss, and increasing the degree.
- Here, it is even more interesting to see that both accuracy and loss have
- increased with increase in model complexity.
- So the second question is whether this is overfitting or not?
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status collapsed
-
-\begin_layout Plain Layout
-\align left
-\begin_inset Graphics
-	filename C:/Users/shubhammittal/Desktop/assignment/Q3_Multi_Class/BiasVarianceDecomp.png
-	width 8cm
-	height 8cm
-	keepAspectRatio
-
-\end_inset
-
-
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Bias Variance Decomposition
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:Bias-Variance-Decomposition-1"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-Now, we shall answer both the questions.
- Firstly, from the discussion in previous questions, we can understand the
- increase in the train loss for degrees higher than 5-6 to be due to numerical
- errors in the computer.
- Since the loss measures the deviation of predicted values from true values
- and the accuracy measures the performance of the model, loss is a measure
- used in the training process to find the "best" parameter values for the
- model.
- In short, it is not necessary that high accuracy means low loss.
- Thus, we should not stop at spikes since we want to train the model well
- (in terms of loss).
- Anwering second question - the model has improved (and not overfit) because
- we assess its performance through accuracy.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float table
-wide false
-sideways false
-status collapsed
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Tabular
-<lyxtabular version="3" rows="4" columns="3">
-<features tabularvalignment="middle">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\series bold
-Gradient Descent
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\series bold
-Stochastic GD
+0.976
 \end_layout
 
 \end_inset
@@ -4811,354 +542,30 @@ Stochastic GD
 \begin_inset Text
 
 \begin_layout Plain Layout
-Train Acc
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.9658
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.9592
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Test Acc
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.9645
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.9587
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Test MacroF1
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.9643
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.9584
-\end_layout
-
-\end_inset
-</cell>
-</row>
-</lyxtabular>
-
-\end_inset
-
-
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-\begin_inset Formula $4^{th}$
-\end_inset
-
- degree Polynomial Logistic regression (cross entropy)
-\begin_inset CommandInset label
-LatexCommand label
-name "tab:Logistic-regression-(cross"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
- 
-\end_layout
-
-\begin_layout Standard
-Thus the best regression model is the logistic 
-\begin_inset Formula $4^{th}$
-\end_inset
-
- degree polynomial regression model.
- For completeness, results of SGD are also shown in Table in 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "tab:Logistic-regression-(cross"
-plural "false"
-caps "false"
-noprefix "false"
-
-\end_inset
-
-.
- The per-class performance metrics and confusion matrix for this model are
- given in Table 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "tab:Logistic-Regression-over-1"
-plural "false"
-caps "false"
-noprefix "false"
-
-\end_inset
-
-.
- Even though there is a slight fall in the performance metrics in SGD, but
- notable difference in the training time was observed.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float table
-wide false
-sideways false
-status collapsed
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Tabular
-<lyxtabular version="3" rows="7" columns="4">
-<features tabularvalignment="middle">
-<column alignment="left" valignment="top" width="0pt">
-<column alignment="left" valignment="top" width="0pt">
-<column alignment="left" valignment="top" width="0pt">
-<column alignment="left" valignment="top" width="0pt">
-<row>
-<cell alignment="left" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\series bold
-Precision
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\series bold
-Recall
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\series bold
-F1
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="left" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.982
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.978
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.98
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="left" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
 1
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.953
+0.955
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.978
+0.995
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.965
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="left" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-2
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.97
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-1.0
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.985
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="left" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-3
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.968
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.982
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -5169,76 +576,84 @@ F1
 </cell>
 </row>
 <row>
-<cell alignment="left" valignment="top" topline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-4
+2
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.983
+
+\series bold
+0.995
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.9
+
+\series bold
+0.908
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.939
+
+\series bold
+0.949
 \end_layout
 
 \end_inset
 </cell>
 </row>
 <row>
-<cell alignment="left" valignment="top" topline="true" bottomline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-5
+Macro F1
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.932
+
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.951
+
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.942
+
+\series bold
+0.967
 \end_layout
 
 \end_inset
@@ -5253,490 +668,323 @@ F1
 
 \begin_layout Plain Layout
 \align center
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Simple Cross entropy loss 
+\begin_inset CommandInset label
+LatexCommand label
+name "tab3.1"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Missclassified samples are as follows, these are randomly picked misclassified
+ samples and as we can see most of them are from the class 2 which has the
+ least samples (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig3.1"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename images/Fig3.1Missclassifiedsamples.png
+	lyxscale 10
+	width 90col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Missclassified samples, random.
+ T=True, P =Predicted
+\begin_inset CommandInset label
+LatexCommand label
+name "fig3.1"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Weighted Cross entropy loss: We gave more wight to the class with fewer
+ sample.
+ The weights are inversely proportional to the ratio of classes.
+ We get an increase in the performance metrics, particularly the F1 score
+ of the class 1 and 2 which have less samples.
+ results are as follows.(Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab3.2"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
 \begin_inset Tabular
-<lyxtabular version="3" rows="7" columns="7">
+<lyxtabular version="3" rows="5" columns="4">
 <features tabularvalignment="middle">
-<column alignment="left" valignment="top" width="0pt">
-<column alignment="left" valignment="top" width="0pt">
-<column alignment="left" valignment="top" width="0pt">
-<column alignment="left" valignment="top" width="0pt">
-<column alignment="left" valignment="top" width="0pt">
-<column alignment="left" valignment="top" width="0pt">
-<column alignment="left" valignment="top" width="0pt">
+<column alignment="center" valignment="top" width="0pt">
+<column alignment="center" valignment="top" width="0pt">
+<column alignment="center" valignment="top" width="0pt">
+<column alignment="center" valignment="top" width="0pt">
 <row>
-<cell alignment="left" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 
 \series bold
+Class
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Precision
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Recall
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+F1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
 0
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
+0.976
+\end_layout
 
-\series bold
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.996
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.985
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
 1
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
+0.977
+\end_layout
 
-\series bold
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.997
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.986
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
 2
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 
 \series bold
-3
+0.992
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 
 \series bold
-4
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\series bold
-5
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="left" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\series bold
-0
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.978
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.0
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.022
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.0
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.0
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.0
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="left" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\series bold
-1
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.0
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.978
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.0
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.0
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.0
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.022
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="left" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\series bold
-2
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.0
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.0
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-1.0
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.0
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.0
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.0
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="left" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\series bold
-3
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.003
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.0
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.005
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.982
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.01
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.0
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="left" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\series bold
-4
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.015
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.0
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.004
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.032
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.9
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.048
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="left" valignment="top" topline="true" bottomline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\series bold
-5
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.0
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.043
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.0
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.0
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.006
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
 0.951
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+0.972
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Macro F1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+0.981
 \end_layout
 
 \end_inset
@@ -5750,17 +998,1087 @@ F1
 \end_layout
 
 \begin_layout Plain Layout
+\align center
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Logistic 
-\begin_inset Formula $4^{th}$
-\end_inset
-
- degree polynomial regression
+Weighted cross entropy loss stats 
 \begin_inset CommandInset label
 LatexCommand label
-name "tab:Logistic-Regression-over-1"
+name "tab3.2"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Focal loss: We experiemnted with the focal loss and obtained an increase
+ in performance metrics, when compared with the vanilla cross entropy loss.(Table
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab3.3"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="4">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0pt">
+<column alignment="center" valignment="top" width="0pt">
+<column alignment="center" valignment="top" width="0pt">
+<column alignment="center" valignment="top" width="0pt">
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Class
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Precision
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Recall
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+F1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.977
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.995
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.987
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.981
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.997
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.988
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+0.993
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+0.965
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+0.980
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Macro F1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+0.985
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Focal loss stats 
+\begin_inset CommandInset label
+LatexCommand label
+name "tab3.3"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+MSE loss: Simple MSE loss was tried out, performance is much worse than
+ cross entropy loss.(Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab3.4"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="4">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0pt">
+<column alignment="center" valignment="top" width="0pt">
+<column alignment="center" valignment="top" width="0pt">
+<column alignment="center" valignment="top" width="0pt">
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Class
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Precision
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Recall
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+F1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.863
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.997
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.925
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.853
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0985
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.914
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+0.996
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+0.685
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+0.811
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Macro F1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+0.8894
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Simple MSE loss stats 
+\begin_inset CommandInset label
+LatexCommand label
+name "tab3.4"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Weighted MSE: Similar to Weghted Crossentropy but with this time using MSE.(Table
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab3.5"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="4">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0pt">
+<column alignment="center" valignment="top" width="0pt">
+<column alignment="center" valignment="top" width="0pt">
+<column alignment="center" valignment="top" width="0pt">
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Class
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Precision
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Recall
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+F1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.881
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.998
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.936
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.862
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.988
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.926
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+0.994
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+0.718
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+0.833
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Macro F1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+0.896
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Weighted MSE loss stats 
+\begin_inset CommandInset label
+LatexCommand label
+name "tab3.5"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Focal loss type weighted MSE: We took the ideas of focal loss and used it
+ in MSE to increase the performance of the classification.(Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab3.6"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="4">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0pt">
+<column alignment="center" valignment="top" width="0pt">
+<column alignment="center" valignment="top" width="0pt">
+<column alignment="center" valignment="top" width="0pt">
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Class
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Precision
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Recall
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+F1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.872
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.998
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.930
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.859
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.986
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.918
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+9.993
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+0.703
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+0.823
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Macro F1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+0.890
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Focal loss MSE stats
+\begin_inset CommandInset label
+LatexCommand label
+name "tab3.6"
 
 \end_inset
 
@@ -5778,107 +2096,39 @@ name "tab:Logistic-Regression-over-1"
 \end_layout
 
 \begin_layout Subsection
-Non Parametric Methods
+KMEANS on SVHN + classification
 \end_layout
 
 \begin_layout Standard
-Figure 
+KMeans algorithm is computationslly intractable for large datasets like
+ SVHN having hundereds of dimensions, hence we applied KMeans Custering
+ on 10K datasets taken from SVHN.
+ K = 3, 5 ,10, 15 ,20 were used and the clusters were made, and new labels
+ were found and supervised learning was performed using SVM's as classifier.
+\end_layout
+
+\begin_layout Standard
+We use SVM's for our multi-class classification problem with the 
+\begin_inset Quotes eld
+\end_inset
+
+one vs one
+\begin_inset Quotes erd
+\end_inset
+
+ approach for classification.
+ We use 8k training points and 2k test points for our classification.
+ The results obtained are tabulated in Table 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "fig:Bias-Variance-Decomposition-2"
+reference "tab3.2.1"
 plural "false"
 caps "false"
 noprefix "false"
 
 \end_inset
 
- (left) show the bias variance decomposition by changing the model complexity.
- In finding the k-nearest neighbours, for distance metric Infinite (represented
- as 0) norm, 1-norm and 2-norm are compared as shown in Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:Bias-Variance-Decomposition-2"
-plural "false"
-caps "false"
-noprefix "false"
 
-\end_inset
-
-(right).
- However, similar to Question 1, we state that the three norms give nearly
- same performance.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align left
-\begin_inset Graphics
-	filename C:/Users/shubhammittal/Desktop/assignment/Q3_Multi_Class/BiasVariance_KNNParzen.png
-	width 4cm
-	height 4cm
-	keepAspectRatio
-
-\end_inset
-
-
-\begin_inset Graphics
-	filename C:/Users/shubhammittal/Desktop/assignment/Q3_Multi_Class/findingNorm.png
-	width 4cm
-	height 4cm
-	keepAspectRatio
-
-\end_inset
-
-
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Bias Variance Decomposition
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:Bias-Variance-Decomposition-2"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-The results are shown in Table 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "tab:Knn-and-Parzen"
-plural "false"
-caps "false"
-noprefix "false"
-
-\end_inset
-
-.
- Even though the MLE/MAP and non-parametric classifiers perform better than
- the logistic regression (by 
-\begin_inset Formula $1\%$
-\end_inset
-
-), the training (and/or testing) time in the former methods is significantly
- higher, by almost 10 times in non param method, than the regression method.
- Thus, this Question presents the need for modern deep learning classifiers
- for more complex and huge datasets.
 \end_layout
 
 \begin_layout Standard
@@ -5890,39 +2140,39 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Tabular
-<lyxtabular version="3" rows="5" columns="3">
+<lyxtabular version="3" rows="6" columns="3">
 <features tabularvalignment="middle">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
+<column alignment="center" valignment="top" width="0pt">
+<column alignment="center" valignment="top" width="0pt">
+<column alignment="center" valignment="top" width="0pt">
 <row>
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+K value
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 
 \series bold
-KNN
+SVM Train Acc
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 
 \series bold
-Parzen Windows
+SVM Test Acc
 \end_layout
 
 \end_inset
@@ -5933,8 +2183,7 @@ Parzen Windows
 \begin_inset Text
 
 \begin_layout Plain Layout
-Val.
- Acc
+3
 \end_layout
 
 \end_inset
@@ -5943,7 +2192,7 @@ Val.
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.9797
+0.9959
 \end_layout
 
 \end_inset
@@ -5952,7 +2201,7 @@ Val.
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.9737
+0.9975
 \end_layout
 
 \end_inset
@@ -5963,8 +2212,7 @@ Val.
 \begin_inset Text
 
 \begin_layout Plain Layout
-Val.
- MacroF1
+5
 \end_layout
 
 \end_inset
@@ -5973,7 +2221,7 @@ Val.
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.9802
+0.9918
 \end_layout
 
 \end_inset
@@ -5982,7 +2230,7 @@ Val.
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.9741
+0.9910
 \end_layout
 
 \end_inset
@@ -5993,7 +2241,7 @@ Val.
 \begin_inset Text
 
 \begin_layout Plain Layout
-Test Acc
+10
 \end_layout
 
 \end_inset
@@ -6002,7 +2250,9 @@ Test Acc
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.9788
+
+\series bold
+0.9854
 \end_layout
 
 \end_inset
@@ -6011,7 +2261,38 @@ Test Acc
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.9760
+
+\series bold
+0.9980
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+15
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.9780
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.9811
 \end_layout
 
 \end_inset
@@ -6022,7 +2303,7 @@ Test Acc
 \begin_inset Text
 
 \begin_layout Plain Layout
-Test MacroF1
+20
 \end_layout
 
 \end_inset
@@ -6031,7 +2312,7 @@ Test MacroF1
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.9790
+0.9801
 \end_layout
 
 \end_inset
@@ -6040,7 +2321,7 @@ Test MacroF1
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.9761
+0.9750
 \end_layout
 
 \end_inset
@@ -6051,13 +2332,265 @@ Test MacroF1
 \end_inset
 
 
+\end_layout
+
+\begin_layout Plain Layout
+\align center
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Knn and Parzen Window Classifiers
+Supervised learning results on K-means clusters data
 \begin_inset CommandInset label
 LatexCommand label
-name "tab:Knn-and-Parzen"
+name "tab3.2.1"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Observations
+\end_layout
+
+\begin_layout Itemize
+We see that the best test accuracy while using SVM's are obtained for K
+ = 10 clusters.
+ This suggestes that the data can be divided using 10 distributions(gaussian
+ with infinitesimal variance) efficiently and this is in coherence with
+ the fact that there are 10 classes in the svhn dataset.
+\end_layout
+
+\begin_layout Itemize
+High accuracies from SVM classification suggest that tSNE outputs have useful
+ information, and Kmeans followed by classification using SVM is an efficient
+ way to utilize the information for classification.
+\end_layout
+
+\begin_layout Subsection
+Domain Adaptation
+\end_layout
+
+\begin_layout Subsubsection
+Target Domain Labels not used
+\end_layout
+
+\begin_layout Standard
+We trained a custom built CNN in pytorch with 2 convolutional layers and
+ 2 hidden layers (details in appendix).
+ We took the input as a 3 channel image so and transformed the MNIST dataset
+ into 3 channels so that a classifier trained on it can be tested on SVHN.
+ Using this setting we made a classifier using MNIST and trained it on SVHN
+ amd vice versa.
+ The reslts are tabulated in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab3.3.1"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+ We use Adam optimizer with learning rate 0.001, and we train for 5 epochs
+ everywhere.
+ Loss and Accuracy plots while training are present in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig3.3.1"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="3" columns="5">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0pt">
+<column alignment="center" valignment="top" width="0pt">
+<column alignment="center" valignment="top" width="0pt">
+<column alignment="center" valignment="top" width="0pt">
+<column alignment="center" valignment="top" width="0pt">
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Classifier trained on
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+MNIST Train Acc
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+MNIST Test Acc
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SVHN Train Acc
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SVHN Test Acc
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+MNIST
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+99.3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+99.25
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+22.461
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SVHN
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+57.21
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+88.5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+88.07
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Supervised learning results on K-means clusters data
+\begin_inset CommandInset label
+LatexCommand label
+name "tab3.3.1"
 
 \end_inset
 
@@ -6075,8 +2608,415 @@ name "tab:Knn-and-Parzen"
 \end_layout
 
 \begin_layout Standard
-The per-class precision and confusion matrix of the better non param classifier,
- KNN, is shown here and the other one's in the Appendix.
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename images/Q3.3Mnistonsvhnsimple_plotforaccerror.png
+	lyxscale 10
+	width 45col%
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename images/Q3.3SVHNtoMNISTsimple_plotforaccerror.png
+	lyxscale 10
+	width 45col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+a)Error and Accuracy for training MNIST classifier and b)Error and Accuracy
+ for training SVHN classifier
+\begin_inset CommandInset label
+LatexCommand label
+name "fig3.3.1"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Observations
+\end_layout
+
+\begin_layout Standard
+We can cnclude that the classifier trained on SVHN performs decently well
+ on MNIST even when its not trained on it but on the other hand, classifier
+ trained on MNIST doesnot generalize well on SVHN, with only 22 percent
+ accuracy, but nevertheless its double the accuracy we get by random guessing.
+ This is expected because SVHN dataset is more diverse and the network needs
+ to learn much more complex distributions due to varying color if the images,
+ overlapping digits and hence its able to generalize well on MNIST as its
+ a simpler dataset.
+ But the MNIST trained network doesnot have to learn as complex distributions
+ and hence the result is that when its trained on a more complex dataset
+ it performs poorly.
+\end_layout
+
+\begin_layout Subsubsection
+Using Target domain labels
+\end_layout
+
+\begin_layout Standard
+We are given samples from source domain 
+\begin_inset Formula $\{Xs,Ys\}$
+\end_inset
+
+ and samples from another target domain 
+\begin_inset Formula $\{Xt\}$
+\end_inset
+
+.
+ Using this setting we need to make a classifier that generalizes well on
+ the target domain.
+ We surveyed ,ultiple techniques to do this, including using using CYCLE
+ GAN's to learn a transformation from the sorce to the target domain using
+ generative adversarial networks, and then using the transformed dataset
+ of the source, building a classifier which generalizes well on the target.
+ We also looked at the paper 
+\begin_inset Quotes eld
+\end_inset
+
+Maximum Classifier Discrepancy for Unsupervised Domain Adaptation
+\begin_inset Quotes erd
+\end_inset
+
+ and tried to implement it.
+ 
+\end_layout
+
+\begin_layout Standard
+In this paper we have a Generator G that generates an embedding and 2 Predictors
+ F1 and F2 that classify the 10 digits.There are 3 losss terms 2 of which
+ force the model F1 and F2 to predict classes of source domain correctly
+ while the 3rd loss term maximizes the discrepancy between predictions made
+ by F1 and F2 for the target domain images.We cosulted the repo of the authors
+ as well as kaggle on how to build and train the model.
+\end_layout
+
+\begin_layout Standard
+We achieved good results for domain adaptation of SVHN onto MNIST but did
+ not get good results vice versa.
+ We still have to figure out why this is the case.
+ The results are shown in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig3.3.2"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename images/Q3.3Mnistonsvhnsimple_plotforaccerror.png
+	lyxscale 10
+	width 45col%
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename images/Q3.3SVHNtoMNISTsimple_plotforaccerror.png
+	lyxscale 10
+	width 45col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+(Left)Error and Accuracy for training MNIST classifier and (Right)SVHN m
+\begin_inset CommandInset label
+LatexCommand label
+name "fig3.3.2"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Class Imbalance in MNIST
+\end_layout
+
+\begin_layout Subsection
+2D PCA, tSNE on SVHN dataset
+\end_layout
+
+\begin_layout Itemize
+The result of performing PCA on SVHN is as shown in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "figQ3.5.1"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename images/SVHN_PCA.jpeg
+	lyxscale 10
+	width 90col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+SVHN 2D PCA 
+\begin_inset CommandInset label
+LatexCommand label
+name "figQ3.5.1"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+The result of performing tSNE on SVHN is as shown in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "figQ3.5.2"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+ tSNE was performed on a subset (10k images) of data which took considerable
+ hours on HPC.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename images/SVHN_tSNE.jpeg
+	lyxscale 10
+	width 90col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+SVHN 2D tSNE 
+\begin_inset CommandInset label
+LatexCommand label
+name "figQ3.5.2"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+To have a comparison, we went ahead and performed PCA, tSNE on MNIST data
+ as well (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Q3.5.3"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+) and based on all this we present our observations and colnclusions below.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename images/mnist_PCA.jpeg
+	lyxscale 10
+	width 45col%
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename images/mnist_tSNE.jpeg
+	lyxscale 10
+	width 45col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+a)2D PCA and b)2D tSNE MNIST 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Q3.5.3"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Observations and Conclusions
+\end_layout
+
+\begin_layout Itemize
+The PCA result on SVHN is very homogeneous, and the classes are not separated
+ at all.
+ We can see that all the class labels are placed at the same point in the
+ figure, ie teh centroid of all the classes is the same and hence wPCA hasn't
+ been able to separate the classes very well in 2 dimesnions.
+\end_layout
+
+\begin_layout Itemize
+tSNE on the other hand isn't alot better but we can ee more clustering than
+ PCA and the centroids of the classes are also displaced from each other
+ if we look closely in the tSNE plot.
+ tSNE being a non linear technique, it is expected that it would perform
+ better than PCA, however in a lot more amount of time due to (O(N^2) complexity
+)
+\end_layout
+
+\begin_layout Itemize
+Comparing the results with MNIST we get class separationg using PCA on MNIST.
+ Classes 7, 9, 4 and classes 6 ,5, 8, 2 are close to each other which is
+ expected due to the struture of the digits.
+ tSNE is able to completely separate all classes from each other as shown
+ in the tSNE plots.
+ An interesting thing to note is that the digit 4 is separated into 2 groups
+ and one is closer to 9, this is expected because some digits, 4 look very
+ cose to 9.
+\end_layout
+
+\begin_layout Itemize
+We can conclude that due to the noisse, background, overlapping digits and
+ classes, and being in more natural setting, SVHN is difficult to separate
+ using PCA,tSNE but MNIST is highly separable due to the nature of the dataset,
+ having contrast between digits and background, uniform background, no overlappi
+ng of labels, classes etc
+\end_layout
+
+\begin_layout Subsection
+smdlsk
+\end_layout
+
+\begin_layout Standard
+n param classifier, KNN, is shown here and the other one's in the Appendix.
 \end_layout
 
 \begin_layout Standard
