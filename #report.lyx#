@@ -154,6 +154,8 @@ We perform our analysis on 2D PCA applied on health data for the purpose
 \end_layout
 
 \begin_layout Subsection
+
+\bar under
 Running SVM with different Kernels
 \end_layout
 
@@ -175,200 +177,6 @@ noprefix "false"
 \end_inset
 
  
-\begin_inset Float table
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Tabular
-<lyxtabular version="3" rows="5" columns="3">
-<features tabularvalignment="middle">
-<column alignment="center" valignment="top" width="0pt">
-<column alignment="center" valignment="top" width="0pt">
-<column alignment="center" valignment="top" width="0pt">
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\series bold
-Kernel
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\series bold
-Optimal C value
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\series bold
-Optimal gamma Value
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Linear
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.5
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
--
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-RBF
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-18
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-149
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Polynomial-Degree2,3,4
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-2, 7, 7
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
--,-,-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-</lyxtabular>
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Optimal Hyperparameters for SVM 
-\begin_inset CommandInset label
-LatexCommand label
-name "tab1.1"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard
@@ -622,6 +430,8 @@ name "tab1.2"
 \end_layout
 
 \begin_layout Subsection
+
+\bar under
 Decision Boundaries
 \end_layout
 
@@ -687,25 +497,9 @@ name "fig:Question1_fig1"
 \end_layout
 
 \begin_layout Subsection
+
+\bar under
 Decision Boundaries with removed support vectors
-\end_layout
-
-\begin_layout Standard
-We removed the old support vectors and then ran the SVM again to fit it
- to the remaining dataset.
- Our decision boundaries are as shown in Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:Question1_fig2"
-plural "false"
-caps "false"
-noprefix "false"
-
-\end_inset
-
-.
- The yellow marked points are the new support vectors.
- As we can see these are much smaller in number.
 \end_layout
 
 \begin_layout Standard
@@ -751,7 +545,27 @@ name "fig:Question1_fig2"
 
 \end_layout
 
+\begin_layout Standard
+We removed the old support vectors and then ran the SVM again to fit it
+ to the remaining dataset.
+ Our decision boundaries are as shown in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Question1_fig2"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+ The yellow marked points are the new support vectors.
+ As we can see these are much smaller in number.
+\end_layout
+
 \begin_layout Paragraph
+
+\bar under
 Observations
 \end_layout
 
@@ -782,6 +596,8 @@ Also these decision boundaries may not be optimal as they are based on teh
 \end_layout
 
 \begin_layout Subsection
+
+\bar under
 Implementing SMO algorithm (bonus part)
 \end_layout
 
@@ -902,6 +718,8 @@ Part A to E correspond to the 5 subquestions of Q3
 \end_layout
 
 \begin_layout Subsection
+
+\bar under
 Class Imbalance in MNIST
 \end_layout
 
@@ -914,8 +732,11 @@ MNIST class 0, 1, 2 were considered in the ratio 70:25:5.
 \end_layout
 
 \begin_layout Standard
-We then used a smaller feedforward neural network with 2 hidden layers to
- first visualize the problems that arose due to class imbalance and then
+We then used a 
+\series bold
+smaller feedforward neural network with only 2 hidden layers
+\series default
+ to first visualize the problems that arose due to class imbalance and then
  try to solve them.
  We first tried out the following methods and modifications to our losses.
 \end_layout
@@ -2594,6 +2415,8 @@ name "tab3.6"
 \end_layout
 
 \begin_layout Subsection
+
+\bar under
 KMEANS on SVHN + classification
 \end_layout
 
@@ -2602,7 +2425,68 @@ KMeans algorithm is computationslly intractable for large datasets like
  SVHN having hundereds of dimensions, hence we applied KMeans Custering
  on 10K datasets taken from SVHN.
  K = 3, 5 ,10, 15 ,20 were used and the clusters were made, and new labels
- were found and supervised learning was performed using SVM's as classifier.
+ were found and supervised learning was performed using SVM's as classifier.Visul
+aization of Kmeans clustering for K=10, K=5 is as shown in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab3.2.1"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename images/kmeans10.png
+	lyxscale 10
+	width 45col%
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename images/kmeans5.png
+	lyxscale 10
+	width 45col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Kmeans clustering for K =10, 5 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig3.2.0"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -2858,6 +2742,8 @@ name "tab3.2.1"
 \end_layout
 
 \begin_layout Subsubsection
+
+\bar under
 Observations
 \end_layout
 
@@ -2876,10 +2762,14 @@ High accuracies from SVM classification suggest that tSNE outputs have useful
 \end_layout
 
 \begin_layout Subsection
+
+\bar under
 Domain Adaptation
 \end_layout
 
 \begin_layout Subsubsection
+
+\bar under
 Target Domain Labels not used
 \end_layout
 
@@ -3161,7 +3051,9 @@ name "fig3.3.1"
 
 \end_layout
 
-\begin_layout Paragraph
+\begin_layout Subsubsection*
+
+\bar under
 Observations
 \end_layout
 
@@ -3180,6 +3072,8 @@ We can cnclude that the classifier trained on SVHN performs decently well
 \end_layout
 
 \begin_layout Subsubsection
+
+\bar under
 Using Target domain labels
 \end_layout
 
@@ -3302,10 +3196,57 @@ name "fig3.3.2"
 \end_layout
 
 \begin_layout Subsection
+
+\bar under
 Zero-Shot-Learning
 \end_layout
 
+\begin_layout Standard
+Classifier traind on class 0-4 of MNIST was tested on classes 5-10.
+ An accuracy of 
+\series bold
+23.14% was achieved 
+\series default
+which is very close to the random guess accuracy of 100/5 = 20%.
+\end_layout
+
+\begin_layout Paragraph
+
+\bar under
+Approaches to increase accuracy
+\end_layout
+
+\begin_layout Itemize
+Using PCA visualization facts : We see from PCA (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Q3.5.3"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ (left)), and from common knowledge about digits that some classes are close
+ to each other because they share same features (for eg igits 7,1 look similar,
+ 9,4 look similar).
+ We first choose the most probable class out of the first 5 classes.
+ Then our network classifies the image as 7,9, 8, 6, 5 if the highest activation
+s are for classes 1, 4, 3, 0, 2 respectively and we achieve a 
+\series bold
+11% accuracy gain 
+\series default
+by employing this method.
+ Finally our accuracy was increased to 
+\series bold
+34% 
+\series default
+from the earlier 23%
+\end_layout
+
 \begin_layout Subsection
+
+\bar under
 2D PCA, tSNE on SVHN dataset
 \end_layout
 
@@ -3320,7 +3261,23 @@ noprefix "false"
 
 \end_inset
 
-.
+ (left).
+\end_layout
+
+\begin_layout Itemize
+The result of performing tSNE on SVHN is as shown in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "figQ3.5.1"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ (right).
+ tSNE was performed on a subset (10k images) of data which took considerable
+ hours on HPC.
 \end_layout
 
 \begin_layout Standard
@@ -3339,56 +3296,6 @@ status open
 \end_inset
 
 
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-SVHN 2D PCA 
-\begin_inset CommandInset label
-LatexCommand label
-name "figQ3.5.1"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Itemize
-The result of performing tSNE on SVHN is as shown in Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "figQ3.5.2"
-plural "false"
-caps "false"
-noprefix "false"
-
-\end_inset
-
-.
- tSNE was performed on a subset (10k images) of data which took considerable
- hours on HPC.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
 \begin_inset Graphics
 	filename images/SVHN_tSNE.jpeg
 	lyxscale 10
@@ -3403,10 +3310,10 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-SVHN 2D tSNE 
+SVHN 2D PCA(left) and SVHN 2D tSN(right) 
 \begin_inset CommandInset label
 LatexCommand label
-name "figQ3.5.2"
+name "figQ3.5.1"
 
 \end_inset
 
@@ -3489,6 +3396,8 @@ name "fig:Q3.5.3"
 \end_layout
 
 \begin_layout Subsubsection
+
+\bar under
 Observations and Conclusions
 \end_layout
 
@@ -3535,6 +3444,207 @@ Appendix
 
 \begin_layout Subsection
 Q1 SVM Health Data
+\end_layout
+
+\begin_layout Paragraph
+Optimla Hyperparameter values
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0pt">
+<column alignment="center" valignment="top" width="0pt">
+<column alignment="center" valignment="top" width="0pt">
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Kernel
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Optimal C
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Optimal gamma
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Linear
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+RBF
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+18
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+149
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Poly-Deg2,3,4
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2, 7, 7
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-,-,-
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Optimal Hyperparameters for SVM 
+\begin_inset CommandInset label
+LatexCommand label
+name "tab1.1"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Paragraph
@@ -3603,7 +3713,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename images/Q1PCA.png
+	filename images/Q1gridsearchC_gamma.png
 	lyxscale 10
 	width 90col%
 
@@ -3619,7 +3729,7 @@ status open
 grid searh for C and gamma 
 \begin_inset CommandInset label
 LatexCommand label
-name "figA1.1-1"
+name "figA1.2"
 
 \end_inset
 
@@ -3637,7 +3747,12 @@ name "figA1.1-1"
 \end_layout
 
 \begin_layout Paragraph
-PCA visualization
+Search for C
+\end_layout
+
+\begin_layout Standard
+searching for SVM hyperparamter C for linear and polynomial kernels was
+ done by plotting accuracies for multiple values of C.
 \end_layout
 
 \begin_layout Standard
@@ -3649,9 +3764,37 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename images/Q1PCA.png
+	filename images/Q1linearCsearch.png
 	lyxscale 10
-	width 90col%
+	width 45col%
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename images/Q1poly2Csearch.png
+	lyxscale 10
+	width 45col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename images/Q1poly3Csearch.png
+	lyxscale 10
+	width 45col%
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename images/Q1poly4Csearch.png
+	lyxscale 10
+	width 45col%
 
 \end_inset
 
@@ -3665,7 +3808,7 @@ status open
 SVHN 2D PCA 
 \begin_inset CommandInset label
 LatexCommand label
-name "figA1.1-2"
+name "figA1.3"
 
 \end_inset
 
