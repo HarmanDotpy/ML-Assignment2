@@ -5,6 +5,22 @@ Find the Final Report here: https://github.com/HarmanDotpy/ML-Assignment2/blob/m
 
 Find the Problem statements here: https://github.com/HarmanDotpy/ML-Assignment2/blob/main/Problem_Statement_and_Final_Report/ProblemStatement_Assignment_2_409_2020.pdf
 
-A small part of the assignment was about fitting SVM's, here's a glimpse:-
+
+## Glimpses from the assignment 
+### Fitting SVM's
+(Old Data = Original Data with Support Vectors Marked in Yellow
+ New Data = Support vectors removed from original data and SVM refitted, new support vectors marked in Yellow)
+
+Old Data            |  New Data
+:-------------------------:|:-------------------------:
+![image](images/Q1.3supportvecs_decision.png)  |  ![image](images/Q1.3without_supportvecs_decision.png)
+
+
+### MNIST Visualization
+
+PCA          |  tSNE
+:-------------------------:|:-------------------------:
+![image](images/mnist_PCA.jpeg)  |  ![image](images/mnist_tSNE.jpeg)
+
 
 
